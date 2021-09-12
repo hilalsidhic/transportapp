@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('user/index');
 });
 
+router.get('/optionPage', function(req, res, next) {
+  res.render('user/option')
+})
+
 module.exports = router;
