@@ -1,5 +1,5 @@
 
-<div class="overflow-x-auto">
+<div class="overflow-x-auto w-full">
   <table class="table w-full table-zebra">
     <thead>
       <tr class="active">
@@ -12,12 +12,18 @@
     <tbody>
      {{#each places.Places}}
       <tr class="hover">
-        <th>{{this.PlaceId}}</th> 
-        <td>{{this.PlaceName}}</td> 
-        <td>{{this.CountryId}}</td> 
-        <td>{{this.CountryName}}</td>
+        <th>{{PlaceId}}</th> 
+        <td>{{PlaceName}}</td> 
+        <td>{{CountryId}}</td> 
+        <td>{{CountryName}}</td>
+        <td><button class="btn btn-neutral" onclick="return searchFlight(`{{PlaceId}}`,`{{this.PlaceName}}`,`{{this.CountryId}}`,`{{this.CountryName}}`)">Search For Flights</button></td> 
       </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
+<script>
+  function searchFlight(placeI,place, countryI, country){
+  alert(placeI + place + countryI + country)
+  }
+</script>

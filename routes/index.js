@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var axios = require("axios").default;
+var rapidapi=require("../apikey.js")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -21,8 +22,8 @@ router.post('/searchPlace',(req, res, next) => {
     url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/${req.body.country}/${req.body.currency}/en-GB/`,
     params: {query: req.body.query},
     headers: {
-      'x-rapidapi-host': 'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-      'x-rapidapi-key': '4038c84751msh0760b4cd497bc17p11c57cjsnca59824b3cb4'
+      'x-rapidapi-host': rapidapi.rapidapihost,
+      'x-rapidapi-key': rapidapi.rapidapikey
     }
   };
   
