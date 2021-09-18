@@ -1,0 +1,23 @@
+
+<div class="overflow-x-auto">
+  <table class="table w-full table-zebra">
+    <thead>
+      <tr class="active">
+        <th>PlaceID</th> 
+        <th>PlaceName</th> 
+        <th>CountryID</th> 
+        <th>Country Name</th>
+      </tr>
+    </thead> 
+    <tbody>
+     {{#each places.Places}}
+      <tr class="hover">
+        <th>{{this.PlaceId}}</th> 
+        <td>{{this.PlaceName}}</td> 
+        <td>{{this.CountryId}}</td> 
+        <td>{{this.CountryName}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
