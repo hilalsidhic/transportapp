@@ -1,6 +1,6 @@
 <section class="grid grid-cols-6 grid-flow-row bg-base-200" style="min-height: 90vh;">
-    
-    {{!-- <form action="/searchPlace" method="POST"> --}}
+
+  {{!-- <form action="/searchPlace" method="POST"> --}}
     <div class="form-control bg-neutral rounded shadow-2xl col-start-3 col-end-5 ">
       <label class="label-text flex justify-center m-4">
         <span class="label-text text-neutral-content">Enter Your Country Name</span>
@@ -345,53 +345,73 @@
         <option value="XPT">Platinum Ounces</option>
       </select>
       <div class="grid grid-cols-4 grid-flow-row m-8">
-      <input type="text" id="query1" name="DEPARTURE" placeholder="DEPARTURE" class="input input-secondary  col-span-3">
-      <button type="submit" class="btn col-span-1 " onclick="searchplaces('query1')">Search</button>
+        <input type="text" id="query1" name="DEPARTURE" placeholder="DEPARTURE"
+          class="input input-secondary  col-span-3">
+        <button type="submit" class="btn col-span-1 " onclick="searchplaces('query1')">Search</button>
       </div>
       <div class="grid grid-cols-4 grid-flow-row m-8">
-      <input type="text" id="query2" name="DESTINATION" placeholder="DESTINATION" class="input input-secondary col-span-3">
-      <button type="submit" class="btn col-span-1 " onclick="searchplaces('query2')">Search</button>
+        <input type="text" id="query2" name="DESTINATION" placeholder="DESTINATION"
+          class="input input-secondary col-span-3">
+        <button type="submit" class="btn col-span-1 " onclick="searchplaces('query2')">Search</button>
       </div>
-      <button type="submit" class="btn col-span-3 btn-active ">Search</button>
-    </div>  
-    <div id="searchdiv" class="col-start-3 col-end-5 grid grid-cols-3 grid-flow-row">
-      
+      <button type="submit" class="btn col-span-3 btn-active" onclick="BrowseDates()">Check For Flights</button>
     </div>
-  {{!-- </form> --}}
+    <div id="searchdiv" class="col-start-3 col-end-5 grid grid-cols-3 grid-flow-row">
+
+    </div>
+    {{!--
+  </form> --}}
 </section>
 <script>
-  function searchplaces(queries){
+  function searchplaces(queries) {
     let country = document.getElementById("country").value
     let currency = document.getElementById("currency").value
     let query = document.getElementById(queries).value
-    let divS=document.getElementById("searchdiv")
+    let divS = document.getElementById("searchdiv")
     console.log(currency)
     $.ajax({
-      url:'/searchPlace',
+      url: '/searchPlace',
       method: 'POST',
-      data:{
-        country:country,
-        currency:currency,
-        query:query
+      data: {
+        country: country,
+        currency: currency,
+        query: query
       },
-      success:(response)=>{
+      success: (response) => {
         console.log(response.Places)
-         divS.innerHTML = null
-        for(var i = 0; i < response.Places.length; i++){
-          var newdiv=document.createElement("button")
+        divS.innerHTML = null
+        for (var i = 0; i < response.Places.length; i++) {
+          var newdiv = document.createElement("button")
           newdiv.setAttribute("class", "btn btn-neutral btn-lg")
-          newdiv.textContent=response.Places[i].PlaceName
-          let test=response.Places[i].PlaceName
-          newdiv.onclick=function(){return readPlaces(test,divS,queries)}
+          newdiv.textContent = response.Places[i].PlaceName
+          let test = response.Places[i].PlaceId
+          newdiv.onclick = function () { return readPlaces(test, divS, queries) }
           divS.appendChild(newdiv)
         }
       }
     })
   }
-  function readPlaces(Placename,divS,queries){
-    document.getElementById(queries).value=Placename
-    divS.innerHTML=null
+  function readPlaces(Placename, divS, queries) {
+    document.getElementById(queries).value = Placename
+    divS.innerHTML = null
   }
 
-  
+  function BrowseDates() {
+    let country = document.getElementById("country").value
+    let currency = document.getElementById("currency").value
+    let DEPARTURE = document.getElementById("query1").value
+    let DESTINATION = document.getElementById("query2").value
+
+    $.post("/BrowseDates",
+    {
+      country: country,
+      currency: currency,
+      departure: DEPARTURE,
+      destination: DESTINATION
+    }, 
+    function (data, status) {
+      alert("Data: " + data + "\nStatus: " + status);
+    });
+  }
+
 </script>

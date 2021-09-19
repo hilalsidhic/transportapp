@@ -31,10 +31,28 @@ router.post('/searchPlace',(req, res, next) => {
   
     // const places = response.data;
     //  res.render('user/searchPlaces', {places})
-    res.json(response.data);
+     res.json(response.data);
   }).catch(function (error) {
     console.error(error);
   });
+})
+
+router.post('/BrowseDates',(req, res, next)=>{
+console.log(req.body);
+var options = {
+  method: 'GET',
+  url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/${req.body.country}/${req.body.currency}/en-GB/${req.body.departure}/${req.body.destination}/anytime`,
+  headers: {
+    'x-rapidapi-host': rapidapi.rapidapihost,
+    'x-rapidapi-key': rapidapi.rapidapikey
+  }
+};
+
+axios.request(options).then(function (response) {
+	console.log(response.data.Quotes[0].OutboundLeg);
+}).catch(function (error) {
+	console.error(error);
+});
 })
 
 
