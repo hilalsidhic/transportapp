@@ -28,9 +28,10 @@ router.post('/searchPlace',(req, res, next) => {
   };
   
   axios.request(options).then(function (response) {
-    const places = response.data;
-     res.render('user/searchPlaces', {places})
-    // res.json(places.Places);
+  
+    // const places = response.data;
+    //  res.render('user/searchPlaces', {places})
+    res.json(response.data);
   }).catch(function (error) {
     console.error(error);
   });
