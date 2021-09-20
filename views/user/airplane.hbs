@@ -359,8 +359,23 @@
     <div id="searchdiv" class="col-start-3 col-end-5 grid grid-cols-3 grid-flow-row">
 
     </div>
-    {{!--
-  </form> --}}
+</section>
+<section class="overflow-x-auto w-full bg-black">
+  <table class="table w-full table-zebra hidden" id="table">
+    <thead>
+      <tr class="active">
+        <th>No.</th> 
+        <th>Minimum Price available</th> 
+        <th>Airline Name</th> 
+        <th>Time&Date</th>
+        <th>Departure</th>
+        <th>Destination</th>
+      </tr>
+    </thead> 
+    <tbody id="table-body">
+      
+    </tbody>
+  </table>
 </section>
 <script>
   function searchplaces(queries) {
@@ -401,6 +416,8 @@
     let currency = document.getElementById("currency").value
     let DEPARTURE = document.getElementById("query1").value
     let DESTINATION = document.getElementById("query2").value
+     let tablebody=document.getElementById("table-body")
+     let table=document.getElementById("table")
 
     $.post("/BrowseDates",
     {
@@ -410,7 +427,42 @@
       destination: DESTINATION
     }, 
     function (data, status) {
-      alert("Data: " + data + "\nStatus: " + status);
+      tablebody.innerHTML = null
+      table.classList.remove("hidden")
+     for(i=0;i<data.Quotes.length;i++){
+       let tablerow=document.createElement("tr")
+       tablerow.setAttribute("class","hover")
+       let numtable=document.createElement("td")
+       numtable.textContent=data.Quotes[i].QuoteId
+       tablerow.appendChild(numtable)
+       let minprice=document.createElement("td")
+       minprice.textContent=data.Currencies[0].Symbol + data.Quotes[i].MinPrice
+       tablerow.appendChild(minprice)
+       let airlineName=document.createElement("td")
+       let carrierno=data.Quotes[i].OutboundLeg.CarrierIds
+       console.log(carrierno[0])
+       for(j=0;j<data.Carriers.length;j++){
+         if(carrierno[0]==data.Carriers[j].CarrierId){
+           airlineName.textContent=data.Carriers[j].Name
+           tablerow.appendChild(airlineName)
+         }
+         else{
+           console.log(data.Carriers[j].Name)
+         }
+       }
+       let datetime=document.createElement("td")
+       datetime.textContent=data.Quotes[i].QuoteDateTime
+       tablerow.appendChild(datetime)
+       let departuretable=document.createElement("td")
+       departuretable.textContent=data.Places[1].Name
+       tablerow.appendChild(departuretable)
+       let destinationtable=document.createElement("td")
+       destinationtable.textContent=data.Places[0].Name
+       tablerow.appendChild(destinationtable)
+
+      tablebody.appendChild(tablerow)
+     }
+     
     });
   }
 

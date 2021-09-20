@@ -49,7 +49,7 @@ var options = {
 };
 
 axios.request(options).then(function (response) {
-	console.log(response.data.Quotes[0].OutboundLeg);
+	res.json(response.data);
 }).catch(function (error) {
 	console.error(error);
 });
